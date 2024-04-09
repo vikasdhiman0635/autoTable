@@ -1,0 +1,72 @@
+<table>
+    <tr cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+        <th>
+            <input type="checkbox" (click)="checkRecords()" [checked]="select_all">
+        </th>
+        @for(header of stateService.tableHeaders; track $index) {
+        <th (click)="sort(header.id, $index, header)" [id]="header.id" cdkDragLockAxis="x" cdkDrag>
+            {{header.displayName}}
+            <img [src]='sorting_img[$index]' [style]="sortingStyle[$index]" *ngIf="header.sort">
+        </th>
+        }
+    </tr>
+    @for (item of stateService.tableData; track $index) {
+    @if ($index>= startingPoint && $index<= endingPoint) { <tr>
+        <td>
+            <input class="checkbox" type="checkbox" [checked]="stateService.editSelectRecoredsIndex[$index]"
+                (click)="selectField($index)">
+        </td>
+        <td class="all_rows" *ngFor="let col of stateService.tableHeaders">
+            @if(!stateService.displayIndex[$index] || stateService.displayfield[$index]!==col.id){
+            <span (click)="activeInputField(item[col.id], col.id, $index)">
+                {{item[col.id]}}
+            </span>
+            <button type="button">
+                <img (click)="copyText(item[col.id], col.id, $index )" src="../../assets/icons/copy.png">
+            </button>
+            }
+            @if(stateService.displayIndex[$index] && stateService.displayfield[$index]===col.id){
+            <lib-field-editor [headers]="stateService.tableHeaders" [fieldValue]="item[col.id]" [fieldName]=col.id
+                [index]="$index"></lib-field-editor>
+            }
+        </td>
+        </tr>
+        }
+        }
+
+</table>
+<br>
+
+<div class="pagination">
+    <div class="toalPages">
+        <span>
+            Total Pages: <span>{{pages}}</span>
+        </span>
+    </div>
+    <div class="allsetup">
+        <span>No. of records</span>
+        <select (change)="changeNoofRecords($event)">
+            @for (item of pagination; track $index) {
+            <option [value]="item.key">{{item.key}}</option>
+            }
+        </select>
+        <input type="button" value="<" [disabled]="currentPage==1" class="btn_channge"
+            (click)="pageChange(currentPage-1, 'down')">
+        <!-- <input type="button" value="<<" [disabled]="currentPage==1" class="btn_channge" (click)="startup()"> -->
+        <input type="text" [disabled]="true" class="pageNo" [value]="currentPage">
+        <!-- <input type="button" value=">>" [disabled]="!(currentPage<pages)" class="btn_channge" (click)="endPage()"> -->
+        <input type="button" value=">" [disabled]="!(currentPage<pages)" class="btn_channge"
+            (click)="pageChange(currentPage+1, 'up')">
+    </div>
+</div>
+
+<div class="allBtn" [style]="tableData.allbtnStyle">
+    @if (tableData.allbtn.download_btn) {
+    <button type="button" (click)="downloadExcel()"
+        [style]="tableData.allbtn.download_btnStyle">{{tableData.allbtn.download_btnValue}}</button>
+    }
+    @if (tableData.allbtn.savebtn) {
+    <button type="button" (click)="exportData()"
+        [style]="tableData.allbtn.savebtnstyle">{{tableData.allbtn.savebtnValue}}</button>
+    }
+</div>

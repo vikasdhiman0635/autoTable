@@ -1,0 +1,23 @@
+@if(headerfield.type === 'text'){
+<input [type]="headerfield.type" [(ngModel)]="fieldValue" [id]="headerfield.id" (keyup.enter)="hideInput($event)"
+    (blur)="cancelEdit()" autofocus>
+}
+@else if(headerfield.type === 'select'){
+<select [name]="headerfield.id" [id]="headerfield.id" [(ngModel)]="fieldValue" (keyup.enter)="hideInput($event)"
+    (blur)="cancelEdit()" autofocus>
+    <option value="select options">select options</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="others">Others</option>
+</select>
+}
+@else if(headerfield.type === 'number')
+{
+<input [type]="headerfield.type" [(ngModel)]="fieldValue" [id]="headerfield.id" (keyup.enter)="hideInput($event)"
+    (blur)="cancelEdit()" autofocus>
+}
+@else if(headerfield.type === 'email')
+{
+<input [type]="headerfield.type" [(ngModel)]="fieldValue" [id]="headerfield.id" (keyup.enter)="hideInput($event)"
+    (blur)="cancelEdit()" autofocus>
+}
