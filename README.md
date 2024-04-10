@@ -23,11 +23,11 @@ You can get it on npm.
 - If you're using Angular 16 or 17, please navigate to the component.ts file and ensure to update the imports array accordingly.
 
 ```typescript
-   import { AutoTable } from 'making-table';
+   import { MakingTable } from 'making-table';
    ...
    imports: [
    ...
-       AutoTable,
+       MakingTable,
    ...
    ]
 ```
@@ -42,7 +42,7 @@ This library support multiple kinds of copy source.
 - open component.html file
 
 ```HTML
-    <autoTable [tableData]="tableData"></autoTable>
+    <makingTable [tableData]="tableData"></makingTable>
 ```
 
 - open component.ts file
