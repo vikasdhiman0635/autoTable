@@ -1,24 +1,151 @@
-# AutoTable
+# Making Table
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+With this library, you can effortlessly construct table structures by simply providing JSON data.
 
-## Code scaffolding
+From 6.0.0, there is no other JS dependency anymore. Just Angular.
 
-Run `ng generate component component-name --project autoTable` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project autoTable`.
-> Note: Don't forget to add `--project autoTable` or else it will be added to the default project in your `angular.json` file. 
+It works with angular version 2.0.0 and up
 
-## Build
+## Dependency
 
-Run `ng build autoTable` to build the project. The build artifacts will be stored in the `dist/` directory.
+- You can utilize version 0.0.3 of the "making-table" library with any Angular version higher than 8.
 
-## Publishing
+## Installation
 
-After building your library with `ng build autoTable`, go to the dist folder `cd dist/auto-table` and run `npm publish`.
+You can get it on npm.
 
-## Running unit tests
+```bash
+  npm install making-table
+```
 
-Run `ng test autoTable` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Open your module file e.g app.module.ts and update imports array
 
-## Further help
+- If you're using Angular 16 or 17, please navigate to the component.ts file and ensure to update the imports array accordingly.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```typescript
+   import { AutoTable } from 'making-table';
+   ...
+   imports: [
+   ...
+       AutoTable,
+   ...
+   ]
+```
+
+## Usage
+
+### Copy source
+
+This library support multiple kinds of copy source.
+
+- Setting tableData attribute
+- open component.html file
+
+```HTML
+    <autoTable [tableData]="tableData"></autoTable>
+```
+
+- open component.ts file
+- make the tableData array
+
+```typescript
+tableData: any = {
+  headerName: [
+    {
+      displayName: "Name",
+      sort: true,
+      id: "name",
+      editable: true,
+      type: "text",
+    },
+    {
+      displayName: "Age",
+      sort: true,
+      id: "age",
+      editable: true,
+      type: "number",
+    },
+    {
+      displayName: "Gender",
+      sort: false,
+      id: "gender",
+      editable: true,
+      type: "select",
+    },
+    {
+      displayName: "Email",
+      sort: false,
+      id: "email",
+      editable: false,
+      type: "email",
+    },
+    {
+      displayName: "Phone Number",
+      sort: false,
+      id: "phoneNo",
+      editable: false,
+      type: "number",
+    },
+  ],
+  data: [
+    {
+      name: "Ram",
+      age: "23",
+      gender: "male",
+      email: "ram@gmail.com",
+      phoneNo: "+91 0000000000",
+    },
+    {
+      name: "Vivek",
+      age: "24",
+      gender: "male",
+      email: "vivek@gmail.com",
+      phoneNo: "+91 0000000000",
+    },
+    {
+      name: "Mohan",
+      age: "22",
+      gender: "male",
+      email: "Mohan@gmail.com",
+      phoneNo: "+91 0000000000",
+    },
+  ],
+  manageDisplayData: false,
+  makeTableData: [],
+  allbtn: {
+    download_btn: true,
+    download_btnValue: "Download Excel",
+    download_btnStyle: { "background-color": "rgb(154, 134, 134)" },
+    savebtn: true,
+    savebtnValue: "Save data",
+    savebtnstyle: { "background-color": "rgb(154, 134, 134)" },
+  },
+  allbtnStyle: { display: "flex", "justify-content": "space-evenly" },
+};
+```
+
+### Note
+
+- In headerName columns Id will be match with data keys
+
+#### Ex.
+
+```HTML
+{ displayName: "Name", sort: true, id: 'name', editable: true, type: 'text' }
+```
+
+- The identifier name(id: 'name') corresponds to the key data name (data: [ { name(Key): 'Ram'(Value) } ]).
+
+## Usage/Examples
+
+### Build Project
+
+```cmd
+  npm i && npm run build
+```
+
+To run demo code locally
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)

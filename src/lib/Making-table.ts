@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { CdkDrag, CdkDragDrop, CdkDragPreview, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
@@ -11,7 +11,7 @@ import saveAs from 'file-saver';
 import { FieldEditorComponent } from './comp/field-editor/field-editor.component';
 
 @Component({
-  selector: 'autoTable',
+  selector: 'makingTable',
   standalone: true,
   imports: [
     FieldEditorComponent,
@@ -28,7 +28,7 @@ import { FieldEditorComponent } from './comp/field-editor/field-editor.component
   templateUrl: './auto-table.component.html',
   styleUrl: './auto-table.component.scss'
 })
-export class AutoTable {
+export class MakingTable {
   sort_direction: string[] = [];
   sorting_img: string[] = [];
   sortingStyle: string[] = [];
@@ -51,189 +51,8 @@ export class AutoTable {
     { key: '50' },
   ];
 
+  @Input() tableData: any;
 
-  tableData: any = {
-    headerName: [
-      { displayName: "Name", sort: true, id: 'name', editable: true, type: 'text' },
-      { displayName: "Age", sort: true, id: 'age', editable: true, type: 'number' },
-      { displayName: "Gender", sort: false, id: 'gender', editable: true, type: 'select' },
-      { displayName: "Email", sort: false, id: 'email', editable: false, type: 'email' },
-      { displayName: "Phone Number", sort: false, id: 'phoneNo', editable: false, type: 'number' },
-      { displayName: "Flat No", sort: false, id: 'flatNo', editable: false, type: 'number' },
-      { displayName: "Tower Number", sort: false, id: 'towerNo', editable: false, type: 'number' },
-      { displayName: "Socity", sort: false, id: 'socity', editable: false, type: 'text' },
-      { displayName: "Sector", sort: false, id: 'sector', editable: false, type: 'text' },
-      { displayName: "State", sort: false, id: 'state', editable: false, type: 'text' },
-      { displayName: "Country", sort: false, id: 'country', editable: false, type: 'text' }
-    ],
-    data: [
-      {
-        name: 'Vikas Dhiman', age: '23', gender: 'male',
-        email: 'vikas@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Vivek',
-        age: '23',
-        gender: 'male',
-        email: 'vivek@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Yogantar',
-        age: '23',
-        gender: 'male',
-        email: 'yogantar@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Vikas Dhiman',
-        age: '23',
-        gender: 'male',
-        email: 'vikas@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Vivek',
-        age: '23',
-        gender: 'male',
-        email: 'vivek@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Yogantar',
-        age: '23',
-        gender: 'male',
-        email: 'yogantar@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Vikas Dhiman',
-        age: '23',
-        gender: 'male',
-        email: 'vikas@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Vivek',
-        age: '23',
-        gender: 'male',
-        email: 'vivek@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Yogantar',
-        age: '23',
-        gender: 'male',
-        email: 'yogantar@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Vikas Dhiman',
-        age: '23',
-        gender: 'male',
-        email: 'vikas@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Vivek',
-        age: '23',
-        gender: 'male',
-        email: 'vivek@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      },
-      {
-        name: 'Yogantar',
-        age: '23',
-        gender: 'male',
-        email: 'yogantar@gmail.com',
-        phoneNo: '0000000000',
-        flatNo: '604',
-        towerNo: '15',
-        socity: 'Jaypee Aman',
-        sector: 'Sector 151',
-        state: 'UP',
-        country: 'India'
-      }
-    ],
-    manageDisplayData: false,
-    makeTableData: [],
-    allbtn: {
-      download_btn: true,
-      download_btnValue: 'Download Excel',
-      download_btnStyle: { 'background-color': 'rgb(154, 134, 134)' },
-      savebtn: true,
-      savebtnValue: 'Save data',
-      savebtnstyle: { 'background-color': 'rgb(154, 134, 134)' },
-    },
-    allbtnStyle: { 'display': 'flex', 'justify-content': 'space-evenly' }
-  }
 
   constructor(
     public stateService: AutoTableService,
@@ -300,13 +119,13 @@ export class AutoTable {
     if (header.sort) {
       if (this.sort_direction[index] === '') {
         this.sort_direction[index] = await 'asc';
-        this.sorting_img[index] = await '../../assets/icons/accending.png';
+        this.sorting_img[index] = await '../accending.png';
         this.sortingStyle[index] = await 'display: inline';
         await this.sortingupData(column);
       }
       else if (this.sort_direction[index] === 'asc') {
         this.sort_direction[index] = await 'desc';
-        this.sorting_img[index] = await '../../assets/icons/decanding.png'
+        this.sorting_img[index] = await '../decanding.png'
         this.sortingStyle[index] = await 'display: inline';
         await this.sortingdownData(column);
       }
@@ -383,6 +202,19 @@ export class AutoTable {
       this.startingPoint = (this.endingPoint - (this.noOfRecordsSelected * 2)) + 1;
       this.endingPoint = this.endingPoint - this.noOfRecordsSelected;
     }
+  }
+
+
+  endPage() {
+    this.currentPage = this.pages;
+    this.endingPoint = this.stateService.backupData.data.length;
+    this.startingPoint = this.endingPoint - Math.trunc(this.stateService.backupData.data.length % this.noOfRecordsSelected);
+  }
+
+  startup() {
+    this.currentPage = 1;
+    this.startingPoint = 0;
+    this.endingPoint = this.noOfRecordsSelected - 1;
   }
 
   async downloadExcel() {

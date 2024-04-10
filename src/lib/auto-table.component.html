@@ -22,7 +22,7 @@
                 {{item[col.id]}}
             </span>
             <button type="button">
-                <img (click)="copyText(item[col.id], col.id, $index )" src="../../assets/icons/copy.png">
+                <img (click)="copyText(item[col.id], col.id, $index )" src="../copy.png">
             </button>
             }
             @if(stateService.displayIndex[$index] && stateService.displayfield[$index]===col.id){
@@ -52,9 +52,9 @@
         </select>
         <input type="button" value="<" [disabled]="currentPage==1" class="btn_channge"
             (click)="pageChange(currentPage-1, 'down')">
-        <!-- <input type="button" value="<<" [disabled]="currentPage==1" class="btn_channge" (click)="startup()"> -->
+        <input type="button" value="<<" [disabled]="currentPage==1" class="btn_channge" (click)="startup()">
         <input type="text" [disabled]="true" class="pageNo" [value]="currentPage">
-        <!-- <input type="button" value=">>" [disabled]="!(currentPage<pages)" class="btn_channge" (click)="endPage()"> -->
+        <input type="button" value=">>" [disabled]="!(currentPage<pages)" class="btn_channge" (click)="endPage()">
         <input type="button" value=">" [disabled]="!(currentPage<pages)" class="btn_channge"
             (click)="pageChange(currentPage+1, 'up')">
     </div>
