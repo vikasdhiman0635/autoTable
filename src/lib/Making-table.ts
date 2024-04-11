@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 
 import { CdkDrag, CdkDragDrop, CdkDragPreview, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
@@ -31,7 +31,6 @@ import { FieldEditorComponent } from './comp/field-editor/field-editor.component
 export class MakingTable {
   sort_direction: string[] = [];
   sorting_img: string[] = [];
-  sortingStyle: string[] = [];
 
   data_col: any;
 
@@ -52,6 +51,8 @@ export class MakingTable {
   ];
 
   @Input() tableData: any;
+
+  @Output() exportEditingArray = new EventEmitter<any>();
 
 
   constructor(
@@ -112,6 +113,7 @@ export class MakingTable {
         exit_array.push(this.stateService.tableData[i]);
       }
     }
+    this.exportEditingArray.emit(exit_array);
   }
 
 
@@ -119,20 +121,17 @@ export class MakingTable {
     if (header.sort) {
       if (this.sort_direction[index] === '') {
         this.sort_direction[index] = await 'asc';
-        this.sorting_img[index] = await '../accending.png';
-        this.sortingStyle[index] = await 'display: inline';
+        this.sorting_img[index] = await 'up';
         await this.sortingupData(column);
       }
       else if (this.sort_direction[index] === 'asc') {
         this.sort_direction[index] = await 'desc';
-        this.sorting_img[index] = await '../decanding.png'
-        this.sortingStyle[index] = await 'display: inline';
+        this.sorting_img[index] = await 'down'
         await this.sortingdownData(column);
       }
       else if (this.sort_direction[index] === 'desc') {
         this.sort_direction[index] = await '';
         this.sorting_img[index] = await '';
-        this.sortingStyle[index] = await 'display: none';
         this.stateService.tableData = await this.stateService.backupData.data;
       }
     }

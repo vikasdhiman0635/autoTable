@@ -42,7 +42,7 @@ This library support multiple kinds of copy source.
 - open component.html file
 
 ```HTML
-    <makingTable [tableData]="tableData"></makingTable>
+    <makingTable [tableData]="tableData" (exportEditingArray)="exportData($event)"></makingTable>
 ```
 
 - open component.ts file
@@ -135,6 +135,15 @@ tableData: any = {
 ```
 
 - The identifier name(id: 'name') corresponds to the key data name (data: [ { name(Key): 'Ram'(Value) } ]).
+
+### Export Table
+
+- Within the makingTable tag, there's an event called exportEditingArray that allows you to export table data.
+- You have the flexibility to choose any name for the function exportData($event) and include it in your component.ts file.
+
+```typescript
+<makingTable [tableData]="tableData" (exportEditingArray)="exportData($event)"></makingTable>
+```
 
 ## Usage/Examples
 
