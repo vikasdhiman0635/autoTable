@@ -30,7 +30,7 @@
     @for (item of stateService.tableData; track $index) {
     @if ($index>= startingPoint && $index<= endingPoint) { <tr>
         <td>
-            <input class="checkbox" type="checkbox" [checked]="stateService.editSelectRecoredsIndex[$index]"
+            <input class="checkbox" type="checkbox" [checked]="stateService.tableData[$index].checkbox"
                 (click)="selectField($index)">
         </td>
         <td class="all_rows" *ngFor="let col of stateService.tableHeaders">

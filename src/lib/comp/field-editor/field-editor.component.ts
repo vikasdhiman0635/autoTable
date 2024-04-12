@@ -44,6 +44,7 @@ export class FieldEditorComponent {
       this.stateService.backupEditIndex[this.index] = true;
       this.stateService.tableData[this.index][this.fieldName] = this.fieldValue;
       this.stateService.displayIndex[this.index] = 0;
+      this.stateService.tableData[this.index].checkbox = true;
     }
     else {
       this.stateService.displayIndex[this.index] = 0;
