@@ -160,14 +160,17 @@ export class MakingTable {
     if (this.select_all) {
       for (let i = 0; i < this.stateService.editSelectRecoredsIndex.length; i++) {
         this.stateService.editSelectRecoredsIndex[i] = true;
+        this.stateService.tableData[i].checkbox = true;
       }
     }
     else if (!this.select_all) {
       for (let i = 0; i < this.stateService.editSelectRecoredsIndex.length; i++) {
         this.stateService.editSelectRecoredsIndex[i] = false;
+        this.stateService.tableData[i].checkbox = false;
       }
       for (let i = 0; i < this.stateService.backupEditIndex.length; i++) {
         this.stateService.editSelectRecoredsIndex[i] = this.stateService.backupEditIndex[i];
+        this.stateService.tableData[i].checkbox = this.stateService.backupEditIndex[i];
       }
     }
   }
