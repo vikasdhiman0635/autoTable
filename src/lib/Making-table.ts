@@ -1,6 +1,5 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, output } from '@angular/core';
-
 import { CdkDrag, CdkDragDrop, CdkDragPreview, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Clipboard, ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,7 +39,6 @@ export class MakingTable {
   endingPoint: number = 4;
   pages: any = 1;
   currentPage: number = 1;
-  noOfRecordsSelected: number = 5;
 
   pagination: any[] = [
     { key: '5' },
@@ -50,7 +48,7 @@ export class MakingTable {
     { key: '50' },
   ];
 
-  @Input() tableData: any;
+  @Input() table: any;
 
   @Output() exportEditingArray = new EventEmitter<any>();
 
@@ -61,10 +59,11 @@ export class MakingTable {
   ) { }
 
   ngOnInit() {
-    this.stateService.tableHeaders = this.tableData.headerName;
-    this.stateService.backupData = this.tableData;
-    this.stateService.tableData = this.tableData.data;
-    var data_col = Object.keys(this.tableData.data[0]);
+    this.stateService.tableHeaders = this.table.headerName;
+    this.stateService.backupData = this.table;
+    this.stateService.allData = this.table;
+    this.stateService.tableData = this.table.data;
+    var data_col = Object.keys(this.table.data[0]);
     if (data_col.length === this.stateService.tableHeaders.length) {
       this.data_col = data_col;
       for (let i = 0; i < data_col.length; i++) {
@@ -77,15 +76,25 @@ export class MakingTable {
       }
     }
 
-    if (this.stateService.backupData.manageDisplayData) {
-      this.stateService.backupData.makeTableData[0] = this.stateService.tableHeaders[0];
+    if (this.stateService.allData.manageDisplayData) {
+      this.stateService.allData.makeTableData[0] = this.stateService.tableHeaders[0];
       this.stateService.tableHeaders.splice(0, this.stateService.tableHeaders.length - (this.stateService.tableHeaders.length - 1));
     }
+
+    this.setPagination();
+  }
+
+  // Starting and ending no of records
+  setPagination() {
+    this.startingPoint = 0;
+    this.currentPage = 1;
+    this.endingPoint = this.stateService.allData.paginationSelected - 1;
     this.setPageNo();
   }
 
+  // Set total Page no
   async setPageNo() {
-    let count = await this.stateService.backupData.data.length / (this.endingPoint + 1);
+    let count = await this.stateService.allData.data.length / (this.endingPoint + 1);
     var nextPage = await count - Math.trunc(count)
     if (nextPage > 0.1) {
       this.pages = await Math.trunc(count + 1);
@@ -96,7 +105,7 @@ export class MakingTable {
   }
 
   activeInputField(fieldValue: string, field: String, index: number) {
-    this.stateService.tableHeaders.forEach((data) => {
+    this.stateService.tableHeaders.forEach((data: any) => {
       if (data.id === field) {
         if (data.editable === true) {
           this.stateService.displayIndex[index] = 1;
@@ -106,6 +115,7 @@ export class MakingTable {
     });
   }
 
+  // export all data 
   exportData() {
     let exit_array = [];
     for (let i = 0; i < this.stateService.backupEditIndex.length; i++) {
@@ -113,7 +123,6 @@ export class MakingTable {
         exit_array.push(this.stateService.tableData[i]);
       }
     }
-    this.exportEditingArray.emit(exit_array);
   }
 
 
@@ -132,20 +141,20 @@ export class MakingTable {
       else if (this.sort_direction[index] === 'desc') {
         this.sort_direction[index] = await '';
         this.sorting_img[index] = await '';
-        this.stateService.tableData = await this.stateService.backupData.data;
+        this.stateService.tableData = await this.stateService.allData.data;
       }
     }
   }
 
   async sortingupData(column: string) {
-    const res = await [...this.tableData.data].sort((a: any, b: any) => {
+    const res = await [...this.stateService.tableData].sort((a: any, b: any) => {
       return a[column].localeCompare(b[column], undefined, { sensitivity: 'base' });
     });
     this.stateService.tableData = res;
   }
 
   async sortingdownData(column: string) {
-    const res = await [...this.tableData.data].sort((a: any, b: any) => {
+    const res = await [...this.stateService.tableData].sort((a: any, b: any) => {
       return b[column].localeCompare(a[column], undefined, { sensitivity: 'base' });
     });
     this.stateService.tableData = res;
@@ -181,45 +190,55 @@ export class MakingTable {
     this.stateService.editSelectRecoredsIndex[index] = await true;
   }
 
-  copyText(text: string, field: string, index: number) {
+  copyText(text: string) {
     this.clipboard.copy(text);
   }
 
+  // select total no of records in per page
   changeNoofRecords(event: any) {
     this.startingPoint = 0;
     this.currentPage = 1;
     this.endingPoint = event.target.value - 1;
-    this.noOfRecordsSelected = event.target.value;
+    this.stateService.allData.paginationSelected = event.target.value;
     this.setPageNo();
   }
 
+  // set page in next and previous
   pageChange(pageNo: any, str: string) {
-    if (str === 'up') {
+    if (str === 'next') {
       this.currentPage = pageNo;
       this.startingPoint = (this.endingPoint + 1);
-      this.endingPoint = (this.noOfRecordsSelected * pageNo) - 1;
+      this.endingPoint = (this.stateService.allData.paginationSelected * pageNo) - 1;
     }
-    else if (str === 'down') {
+    else if (str === 'back') {
       this.currentPage = pageNo;
-      this.startingPoint = (this.endingPoint - (this.noOfRecordsSelected * 2)) + 1;
-      this.endingPoint = this.endingPoint - this.noOfRecordsSelected;
+      this.endingPoint = (this.stateService.allData.paginationSelected * pageNo) - 1;
+      this.startingPoint = (this.endingPoint - this.stateService.allData.paginationSelected) + 1;
     }
   }
 
 
   endPage() {
     this.currentPage = this.pages;
-    this.endingPoint = this.stateService.backupData.data.length;
-    this.startingPoint = this.endingPoint - Math.trunc(this.stateService.backupData.data.length % this.noOfRecordsSelected);
+    this.endingPoint = this.stateService.allData.data.length;
+    this.startingPoint = this.endingPoint - Math.trunc(this.stateService.allData.data.length % this.stateService.allData.paginationSelected);
   }
 
   startup() {
     this.currentPage = 1;
     this.startingPoint = 0;
-    this.endingPoint = this.noOfRecordsSelected - 1;
+    this.endingPoint = this.stateService.allData.paginationSelected - 1;
   }
 
   async downloadExcel() {
+    await this.exportExcel(0, this.stateService.tableData.length);
+  }
+
+  async downloadExcelByPage() {
+    await this.exportExcel(this.startingPoint, this.endingPoint);
+  }
+
+  async exportExcel(start: number, end: number) {
     const workbook = await new Workbook();
 
     const worksheet = await workbook.addWorksheet('abc');
@@ -234,10 +253,13 @@ export class MakingTable {
     worksheet.columns = await headersArray;
 
     // Add Data
-    this.stateService.tableData.forEach((data: any) => {
-      let acc: any = { ...data };
-      worksheet.addRow(acc);
-    })
+
+    for (let i = start; i <= end; i++) {
+      if (this.stateService.tableData[i]) {
+        let acc: any = { ...this.stateService.tableData[i] };
+        worksheet.addRow(acc);
+      }
+    }
 
     // download file
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8';

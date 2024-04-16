@@ -1,22 +1,28 @@
-@if(headerfield.type === 'text'){
+@if(
+headerfield.type === 'text' ||
+headerfield.type === 'number' ||
+headerfield.type === 'color' ||
+headerfield.type === 'date' ||
+headerfield.type === 'datetime-local' ||
+headerfield.type === 'email' ||
+headerfield.type === 'hidden' ||
+headerfield.type === 'month' ||
+headerfield.type === 'password' ||
+headerfield.type === 'time' ||
+headerfield.type === 'week'
+){
 <input [type]="headerfield.type" [(ngModel)]="fieldValue" [id]="headerfield.id" (keyup.enter)="hideInput($event)"
     (blur)="cancelEdit()" autofocus>
 }
 @else if(headerfield.type === 'select'){
 <select [name]="headerfield.id" [id]="headerfield.id" [(ngModel)]="fieldValue" (keyup.enter)="hideInput($event)"
     (blur)="cancelEdit()" autofocus>
-    <option value="select options">select options</option>
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="others">Others</option>
+    @for (item of headerfield.selectFieldValues; track $index) {
+    <option [value]="item">{{item}}</option>
+    }
 </select>
 }
-@else if(headerfield.type === 'number')
-{
-<input [type]="headerfield.type" [(ngModel)]="fieldValue" [id]="headerfield.id" (keyup.enter)="hideInput($event)"
-    (blur)="cancelEdit()" autofocus>
-}
-@else if(headerfield.type === 'email')
+@else if(headerfield.type === 'tel')
 {
 <input [type]="headerfield.type" [(ngModel)]="fieldValue" [id]="headerfield.id" (keyup.enter)="hideInput($event)"
     (blur)="cancelEdit()" autofocus>

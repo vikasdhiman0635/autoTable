@@ -1,10 +1,11 @@
 <table>
     <tr cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
-        <th>
+        <th [style]="stateService.allData.th_style">
             <input type="checkbox" (click)="checkRecords()" [checked]="select_all">
         </th>
         @for(header of stateService.tableHeaders; track $index) {
-        <th (click)="sort(header.id, $index, header)" [id]="header.id" cdkDragLockAxis="x" cdkDrag>
+        <th [style]="stateService.allData.th_style" (click)="sort(header.id, $index, header)" [id]="header.id"
+            cdkDragLockAxis="x" cdkDrag>
             {{header.displayName}}
             @if(header.sort) {
             @if(sorting_img[$index] === 'up'){
@@ -29,16 +30,16 @@
     </tr>
     @for (item of stateService.tableData; track $index) {
     @if ($index>= startingPoint && $index<= endingPoint) { <tr>
-        <td>
+        <td [style]="stateService.allData.td_style">
             <input class="checkbox" type="checkbox" [checked]="stateService.tableData[$index].checkbox"
                 (click)="selectField($index)">
         </td>
-        <td class="all_rows" *ngFor="let col of stateService.tableHeaders">
+        <td [style]="stateService.allData.td_style" class="all_rows" *ngFor="let col of stateService.tableHeaders">
             @if(!stateService.displayIndex[$index] || stateService.displayfield[$index]!==col.id){
             <span (click)="activeInputField(item[col.id], col.id, $index)">
                 {{item[col.id]}}
             </span>
-            <button type="button">
+            <button type="button" (click)="copyText(item[col.id])">
                 <svg width="15px" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision"
                     text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd"
                     clip-rule="evenodd" viewBox="0 0 438 511.52">
@@ -67,28 +68,33 @@
     </div>
     <div class="allsetup">
         <span>No. of records</span>
-        <select (change)="changeNoofRecords($event)">
-            @for (item of pagination; track $index) {
-            <option [value]="item.key">{{item.key}}</option>
+        <select (change)="changeNoofRecords($event)" [(ngModel)]="stateService.allData.paginationSelected">
+            @for (item of stateService.allData.paginationNoS; track $index) {
+            <option [value]="item">{{item}}</option>
             }
         </select>
         <input type="button" value="<" [disabled]="currentPage==1" class="btn_channge"
-            (click)="pageChange(currentPage-1, 'down')">
+            (click)="pageChange(currentPage-1, 'back')">
         <input type="button" value="<<" [disabled]="currentPage==1" class="btn_channge" (click)="startup()">
         <input type="text" [disabled]="true" class="pageNo" [value]="currentPage">
         <input type="button" value=">>" [disabled]="!(currentPage<pages)" class="btn_channge" (click)="endPage()">
         <input type="button" value=">" [disabled]="!(currentPage<pages)" class="btn_channge"
-            (click)="pageChange(currentPage+1, 'up')">
+            (click)="pageChange(currentPage+1, 'next')">
     </div>
 </div>
 
-<div class="allBtn" [style]="tableData.allbtnStyle">
-    @if (tableData.allbtn.download_btn) {
+<div class="allBtn" [style]="stateService.allData.allbtnStyle">
+    @if (stateService.allData.allbtn.alldownload_btn) {
     <button type="button" (click)="downloadExcel()"
-        [style]="tableData.allbtn.download_btnStyle">{{tableData.allbtn.download_btnValue}}</button>
+        [style]="stateService.allData.allbtn?.alldownload_btnStyle">{{stateService.allData.allbtn?.alldownload_btnValue}}
+    </button>
     }
-    @if (tableData.allbtn.savebtn) {
+    @if (stateService.allData.allbtn.download_as_pagination) {
+    <button type="button" (click)="downloadExcelByPage()"
+        [style]="stateService.allData.allbtn?.download_as_pagination_btnStyle">{{stateService.allData.allbtn?.download_as_pagination_btnValue}}</button>
+    }
+    @if (stateService.allData.allbtn.savebtn) {
     <button type="button" (click)="exportData()"
-        [style]="tableData.allbtn.savebtnstyle">{{tableData.allbtn.savebtnValue}}</button>
+        [style]="stateService.allData.allbtn?.save_btnstyle">{{stateService.allData?.allbtn.savebtnValue}}</button>
     }
 </div>

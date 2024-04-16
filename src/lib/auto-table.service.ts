@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class AutoTableService {
 
+  editRecords: any[] = [];
   editSelectRecoredsIndex: boolean[] = [];
   backupEditIndex: boolean[] = [];
 
@@ -13,6 +14,8 @@ export class AutoTableService {
   tableHeaders: any[] = [];
 
   tableData: any[] = [];
+
+  allData: any;
 
   backupData: any;
 

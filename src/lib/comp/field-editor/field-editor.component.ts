@@ -40,6 +40,8 @@ export class FieldEditorComponent {
 
   hideInput(event: any) {
     if (event.key === 'Enter') {
+      this.stateService.editRecords[this.index] = this.stateService.tableData[this.index];
+      this.stateService.tableData[this.index].checkbox = true;
       this.stateService.editSelectRecoredsIndex[this.index] = true;
       this.stateService.backupEditIndex[this.index] = true;
       this.stateService.tableData[this.index][this.fieldName] = this.fieldValue;
